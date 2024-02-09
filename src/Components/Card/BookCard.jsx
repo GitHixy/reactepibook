@@ -11,8 +11,8 @@ function BookCard({title, price, imgSrc, category, asin}) {
         <Card.Title className='text-truncate'>{title}</Card.Title>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>{category}</ListGroup.Item>
-        <ListGroup.Item>{price}$</ListGroup.Item>
+        <ListGroup.Item>Genre: {category}</ListGroup.Item>
+        <ListGroup.Item>Price: {price}$</ListGroup.Item>
         <ListGroup.Item>Code: {asin}</ListGroup.Item>
       </ListGroup>
     </Card>

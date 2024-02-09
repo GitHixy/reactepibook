@@ -9,7 +9,7 @@ function MyNav() {
   return (
     <Navbar expand="lg" className="bg-dark">
       <Container>
-        <Logo src = 'https://picsum.photos/100/100' className= 'm-1 rounded-circle'  />
+        <Logo src = 'https://picsum.photos/80/80' className= 'm-1 rounded-circle'  />
         <Navbar.Brand href="#home" className='text-white'>EpiBooks</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
