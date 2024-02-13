@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import classes from './BookCard.module.css'
 function BookCard({title, price, imgSrc, category, asin}) {
   return (
-    <Col sm={12} md={6} lg={3}>
+    <Col sm={12} md={6} lg={3} className='mt-4'>
     <Card className='my-3'>
       <Card.Img className={classes['card-img']} variant="top" src= {imgSrc} />
       <Card.Body>

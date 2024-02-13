@@ -55,7 +55,7 @@ const Main = () => {
         <>
         <Container>
           {error && 
-          <Alert variant="danger">{error}</Alert>}
+          <Alert variant="danger" className='mt-4'>{error}</Alert>}
           <Row>
             <Col>
             <input 
@@ -83,7 +83,7 @@ const Main = () => {
                         ))
                     ) : (
                         <Col>
-                            <Alert variant="info">No books found.</Alert>
+                            <Alert variant="info" className='mt-4'>No books found.</Alert>
                         </Col>
                     )}
           </Row>
