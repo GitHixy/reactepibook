@@ -4,6 +4,7 @@ import BookCard from '../Card/BookCard';
 import { Alert, Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import FormTextExample from '../TextField/TextField';
 
 
 const Main = () => {
@@ -35,64 +36,53 @@ const Main = () => {
         setSelectedAsin((prevSelectedAsin) => prevSelectedAsin === asin ? false : asin);
       };
 
-      const handleSearchInput = (e) => {
-        setSearchQuery(e.target.value);
-      };
-
-      const handleEnterSearch = (e) => {
-        if (e.key === 'Enter') {
-          handleSearch();
-        }
-      }
-
-      const handleSearch = () => { 
-        if (searchQuery === '') {
+      const handleSearch = (value) => { 
+        setSearchQuery(value)
+        let result;
+        if (isSearchQueryEmpty(value)) {
           setFilteredBooks(data);
         }else {
-        const result = data.filter(book =>
-            book.title.toLowerCase().includes(searchQuery.toLowerCase())
+        result = data.filter(book =>
+            book.title.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredBooks(result);
       }
     };
 
+const isSearchQueryEmpty = (string) =>  string === '';
+
+const displayFilteredBookCard = (bookCards) => (
+  bookCards.map(book => (
+    <BookCard
+        key={book.asin}
+        title={book.title}
+        price={book.price}
+        imgSrc={book.img}
+        category={book.category}
+        asin={book.asin}
+        onClick={() => handleSelect(book.asin)}
+        isSelected={book.asin === selectedAsin}
+    />
+))
+)
+const displayCol = () => (
+    <Col>
+        <Alert variant="info" className='mt-4'>No books found.</Alert>
+    </Col>
+)
     return(
         <>
         <Container>
           {error && 
           <Alert variant="danger" className='mt-4'>{error}</Alert>}
-          <Row>
-            <Col>
-            <input 
-            type = "text" 
-            className = 'w-25 mt-4' 
-            placeholder = 'Search...'
-            value = {searchQuery}
-            onChange = {handleSearchInput}
-            onKeyDown = {handleEnterSearch}
+          
+            <FormTextExample
+            onChange = {handleSearch}
             />
-            <button className='btn btn-primary mx-2' onClick = {handleSearch}>Search</button>
-            </Col>
-          </Row>
+            
+          
         <Row>
-        {filteredBooks.length > 0 ? (
-                        filteredBooks.map(book => (
-                            <BookCard
-                                key={book.asin}
-                                title={book.title}
-                                price={book.price}
-                                imgSrc={book.img}
-                                category={book.category}
-                                asin={book.asin}
-                                onClick={() => handleSelect(book.asin)}
-                                isSelected={book.asin === selectedAsin}
-                            />
-                        ))
-                    ) : (
-                        <Col>
-                            <Alert variant="info" className='mt-4'>No books found.</Alert>
-                        </Col>
-                    )}
+        {filteredBooks.length > 0 ? displayFilteredBookCard(filteredBooks) : displayCol() }
           </Row>
           </Container>
         </>

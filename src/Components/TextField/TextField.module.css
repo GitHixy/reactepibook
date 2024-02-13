@@ -1,0 +1,13 @@
+.inputDefault {
+    border: 1px solid transparent;
+    padding: 8px;
+    outline: none;
+}
+
+.inputActive {
+    border: 1px solid green;
+}
+
+.inputEmptyAfterinput {
+border: 1px solid red;
+}
