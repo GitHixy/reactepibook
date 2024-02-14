@@ -12,8 +12,7 @@ const Main = () => {
     const [data, setData] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [error, setError] = useState('');
-    const [searchQuery, setSearchQuery] = useState('')
-    const [selectedAsin, setSelectedAsin] = useState(false);
+    
     
     useEffect(() => {
         
@@ -31,13 +30,9 @@ const Main = () => {
         };
         fetchBooks();
       }, []);
-
-      const handleSelect = (asin) => {
-        setSelectedAsin((prevSelectedAsin) => prevSelectedAsin === asin ? false : asin);
-      };
+      
 
       const handleSearch = (value) => { 
-        setSearchQuery(value)
         let result;
         if (isSearchQueryEmpty(value)) {
           setFilteredBooks(data);
@@ -60,8 +55,6 @@ const displayFilteredBookCard = (bookCards) => (
         imgSrc={book.img}
         category={book.category}
         asin={book.asin}
-        onClick={() => handleSelect(book.asin)}
-        isSelected={book.asin === selectedAsin}
     />
 ))
 )

@@ -2,7 +2,7 @@
     height: 400px;
     object-fit: cover;
 }
-.book-card-selected {
+.cardSelected {
 border: 2px dotted red;
 cursor: pointer;
   }
