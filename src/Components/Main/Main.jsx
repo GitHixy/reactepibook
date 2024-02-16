@@ -8,7 +8,8 @@ import FormTextExample from '../TextField/TextField';
 
 
 const Main = () => {
-    const url = 'https://epibooks.onrender.com/'
+    const url = 'https://striveschool-api.herokuapp.com/books'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmNjA2NzA0NTcyZjAwMTk0OTM5NDIiLCJpYXQiOjE3MDgwODk0NDcsImV4cCI6MTcwOTI5OTA0N30.4kLfeBI7P4IfRFuz6GSWjcR0NNWLy3Z83VDASt-3j1k'
     const [data, setData] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [error, setError] = useState('');
@@ -16,9 +17,11 @@ const Main = () => {
     
     useEffect(() => {
         
-        const fetchBooks = async () => {
+         const fetchBooks = async () => {
           try {
-            const res = await axios.get(url);
+            const res = await axios.get(url, {
+              headers: {'Authorization': `Bearer ${token}`}
+            });
             const first20Books = res.data.slice(0, 20);
             console.log(first20Books)
             setData(first20Books);

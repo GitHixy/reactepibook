@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Col from 'react-bootstrap/Col';
+import { Card, ListGroup, Col, Button } from 'react-bootstrap';
 import classes from './BookCard.module.css'
+import CommentModal from '../Modal/PopUpModal';
+
 
 function BookCard({title, price, imgSrc, category, asin, onClick}) {
-  const [isSelected, setIsSelected] = useState(false);
 
+  const [isSelected, setIsSelected] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  
   const handleClick = () => {
     setIsSelected(!isSelected);
     if (onClick) onClick();
@@ -26,7 +32,13 @@ function BookCard({title, price, imgSrc, category, asin, onClick}) {
         <ListGroup.Item>Price: {price}$</ListGroup.Item>
         <ListGroup.Item>Code: {asin}</ListGroup.Item>
       </ListGroup>
+      {isSelected && (
+          <Card.Body>
+            <Button variant="secondary" className='w-100' onClick={handleShowModal}>Add Comment and Rate</Button>
+          </Card.Body>
+        )}
     </Card>
+    <CommentModal show={showModal} handleClose={handleCloseModal} elementId={asin} />
     </Col>
   );
 }
