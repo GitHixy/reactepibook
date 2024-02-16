@@ -35,10 +35,6 @@ function CommentModal({ show, handleClose, elementId }) {
       
         try {
           if (editingCommentId ) {
-            console.log("Sending payload:", payload);
-            console.log("Rating state:", rating);
-            console.log("RatingKey for re-render:", ratingKey);
-
             url = `https://striveschool-api.herokuapp.com/api/comments/${editingCommentId}`;
             await axios.put(url, payload, {
               headers: {
@@ -46,6 +42,7 @@ function CommentModal({ show, handleClose, elementId }) {
                 'Content-Type': 'application/json',
               },
             });
+            alert('Edited Correctly!')
           } else {
             url = 'https://striveschool-api.herokuapp.com/api/comments/'
             payload.elementId = elementId;
@@ -55,6 +52,7 @@ function CommentModal({ show, handleClose, elementId }) {
                 'Content-Type': 'application/json',
               },
             });
+            alert('Comment and Rate Added Correctly!')
           }
           setComment('');
           setEditingCommentId(null);
