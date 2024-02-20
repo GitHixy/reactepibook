@@ -4,15 +4,6 @@ import { useState} from 'react';
 
 function FormTextExample({onChange}) {
 
-    const [value, setValue] = useState('');
-    const [hasBeenActive, setHasBeenActive] = useState(false);
-
-    const handleChange = ({target:{value}}) => {
-        setValue(value) 
-        if (value.length > 0) setHasBeenActive(true)
-        onChange(value);
-    }
-
   return (
     <>
     <Row>
@@ -21,7 +12,7 @@ function FormTextExample({onChange}) {
         className= {`mt-2`}
         type="text"
         placeholder='Search...'
-        onChange= {handleChange}
+        onChange= {onChange}
       />
       </Col>
       </Row>
