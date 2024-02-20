@@ -17,18 +17,18 @@ const Main = () => {
       dispatch(getBooks())
       }, [dispatch]);
       
-const displayBookCards = (books) => (
-  books.map(book => (
-    <BookCard
-        key={book.asin}
-        title={book.title}
-        price={book.price}
-        imgSrc={book.img}
-        category={book.category}
-        asin={book.asin}
-    />
-))
-)
+    const displayBookCards = (books) => (
+        books.slice(0, 20).map(book => (
+          <BookCard
+              key={book.asin}
+              title={book.title}
+              price={book.price}
+              imgSrc={book.img}
+              category={book.category}
+              asin={book.asin}
+          />
+        ))
+      )
 const displayCol = () => (
     <Col> 
         <Alert variant="info" className='mt-4'>No books found.</Alert>
