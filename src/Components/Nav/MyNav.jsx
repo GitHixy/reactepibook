@@ -4,19 +4,23 @@ import Navbar from 'react-bootstrap/Navbar';
 import Link from '../Link/Link';
 import Logo from '../Logo/Logo';
 import FormTextExample from '../TextField/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import { allBooks, filterBooks } from '../../reducers/books/booksSlice';
+import { useDispatch } from 'react-redux';
+import { filterBooks } from '../../reducers/books/booksSlice';
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
 
 function MyNav() {
   const [query, setQuery] = useState('')
-  const books = useSelector(allBooks)
 
   const dispatch = useDispatch()
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  }
+
   const handleFilter = (e) => {
   e.preventDefault();
-  dispatch(filterBooks(query))
+  dispatch(filterBooks(query));
 }
 
   return (
@@ -27,7 +31,7 @@ function MyNav() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
-            <FormTextExample onChange={(e)=> setQuery(e.target.value)}/>
+            <FormTextExample onChange={handleChange}/>
             <Button type='submit' 
                     variant="secondary" 
                     className='mx-2'
