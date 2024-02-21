@@ -6,9 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import booksReducer from './reducers/books/booksSlice'
+import commentsSlice from './reducers/comments/commentsSlice';
 
 const reducer = combineReducers({
-      booksData: booksReducer
+      booksData: booksReducer,
+      commentsData: commentsSlice
 })
 
 const store = configureStore({

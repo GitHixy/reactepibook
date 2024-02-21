@@ -8,8 +8,7 @@ function FormTextExample({onChange}) {
     <>
     <Row>
         <Col>
-      <Form.Control
-        className= {`mt-2`}
+      <Form.Control 
         type="text"
         placeholder='Search...'
         onChange= {onChange}

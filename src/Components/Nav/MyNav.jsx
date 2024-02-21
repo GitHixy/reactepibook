@@ -31,12 +31,14 @@ function MyNav() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
+            
             <FormTextExample onChange={handleChange}/>
             <Button type='submit' 
                     variant="secondary" 
                     className='mx-2'
                     size='sm'
                     onClick={handleFilter}>Search</Button>
+                    
             <Link href='#' text='Home' className='text-white m-2'/>
             <Link href='#' text='About' className='text-white m-2'/>
             <Link href='#' text='Browse' className='text-white m-2'/>

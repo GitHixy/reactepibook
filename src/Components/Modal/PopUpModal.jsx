@@ -1,101 +1,53 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { allComments, getComments, resetComments, deleteComment, editComment, addComment } from '../../reducers/comments/commentsSlice';
 import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
 import Rating from 'react-rating-stars-component';
-import axios from 'axios';
 
 function CommentModal({ show, handleClose, elementId }) {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmNjA2NzA0NTcyZjAwMTk0OTM5NDIiLCJpYXQiOjE3MDgwODk0NDcsImV4cCI6MTcwOTI5OTA0N30.4kLfeBI7P4IfRFuz6GSWjcR0NNWLy3Z83VDASt-3j1k';
-    const [comment, setComment] = useState('');
+    const dispatch = useDispatch();
+    const comments = useSelector(allComments);
+    const [commentText, setCommentText] = useState('');
     const [rating, setRating] = useState(0);
-    const [comments, setComments] = useState([]);
-    const [ratingKey, setRatingKey] = useState(0);
     const [editingCommentId, setEditingCommentId] = useState(null);
 
-
-    const fetchComments = async () => {
-        const url = `https://striveschool-api.herokuapp.com/api/books/${elementId}/comments/`;
-        try {
-          const response = await axios.get(url, {
-            headers: { 'Authorization': `Bearer ${token}` },
-          });
-          const sortedAndLimitedComments = response.data.reverse().slice(0, 5);
-          setComments(sortedAndLimitedComments);
-        } catch (error) {
-          console.error('Error fetching comments:', error);
-        }
+    useEffect(() => {
+      if (show && elementId) {
+        dispatch(getComments(elementId));
+      }
+      return () => {
+        dispatch(resetComments());
       };
-    
-      const handleSaveComment = async () => {
-        let url = ``;
-        const payload = {
-          comment: comment,
-          rate: rating,
-        };
-      
-        try {
-          if (editingCommentId ) {
-            url = `https://striveschool-api.herokuapp.com/api/comments/${editingCommentId}`;
-            await axios.put(url, payload, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            });
-            alert('Edited Correctly!')
-          } else {
-            url = 'https://striveschool-api.herokuapp.com/api/comments/'
-            payload.elementId = elementId;
-            await axios.post(url, payload, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            });
-            alert('Comment and Rate Added Correctly!')
-          }
-          setComment('');
-          setEditingCommentId(null);
-          setRatingKey(prevKey => prevKey + 1);
-          fetchComments();
-        } catch (error) {
-          console.error('Error saving comment:', error);
-        }
-      };
+    }, [show, elementId, dispatch]);
 
-  const handleDeleteComment = async (commentId) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this comment?");
-  if (!isConfirmed) {
-    return; 
-  }
-    const url = `https://striveschool-api.herokuapp.com/api/comments/${commentId}`;
-    
-    try {
-      await axios.delete(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      
-      const updatedComments = comments.filter(comment => comment._id !== commentId);
-      setComments(updatedComments);
-      fetchComments();
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-    }
-  };
+    const handleSave = async () => {
+      if (editingCommentId) {
+        dispatch(editComment({ commentId: editingCommentId, comment: commentText, rate: rating }));
+      } else {
+        dispatch(addComment({ elementId, comment: commentText, rate: rating }));
+      }
+      setCommentText('');
+      setRating(0);
+      setEditingCommentId(null);
+    };
 
-  const startEdit = (comment) => {
-    setComment(comment.comment);
-    setRating(comment.rate);
-    setEditingCommentId(comment._id);
-  };
+    const startEdit = (event, comment) => {
+      event.stopPropagation();
+      setCommentText(comment.comment);
+      setRating(comment.rate);
+      setEditingCommentId(comment._id);
+    };
+
   
-  useEffect(() => {
-    if (show) {
-      fetchComments();
-    }
-  }, [show]);
+    const handleDelete = async (event, commentId) => {
+      event.stopPropagation();
+      const isConfirmed = window.confirm("Are you sure you want to delete this comment?");
+      if (isConfirmed) {
+        dispatch(deleteComment(commentId));
+      }
+    };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -105,28 +57,28 @@ function CommentModal({ show, handleClose, elementId }) {
         <Form>
           <Form.Group className="mb-1" controlId="commentTextArea">
             <Form.Label><strong>Add Comment:</strong></Form.Label>
-            <Form.Control as="textarea" rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
+            <Form.Control as="textarea" rows={3}  value={commentText} onChange={(e) => setCommentText(e.target.value)}/>
           </Form.Group>
           <Form.Group className="mb-1">
             <Form.Label><strong>Rate:</strong></Form.Label>
             <Rating
-              key={ratingKey}
+              value={rating}
               count={5}
-              onChange={setRating}
+              onChange={(newRating) => setRating(newRating)}
               size={35}
               activeColor="#ffd700"
-              value={rating}
+              
             />
           </Form.Group>
         </Form>
         <h5>Comments from Users:</h5>
         <ListGroup>
-          {comments.slice(0, 5).map((comment, index) => (
-            <ListGroup.Item key={index}>
+          {comments.map((comment) => (
+            <ListGroup.Item key={comment._id}>
               <div><strong>Rating: {comment.rate}/5 </strong></div>
-              <div><strong>Comment:</strong> {comment.comment}</div>
-              <Button variant="primary" className='me-2' size="sm" onClick={() => startEdit(comment)}>Edit</Button>
-              <Button variant="danger" size="sm" onClick={() => handleDeleteComment(comment._id)}>Delete</Button>
+              <div><strong>Comment:</strong> {comment.comment} </div>
+              <Button variant="primary" className='me-2' size="sm" onClick={(e) => startEdit(e, comment)}>Edit</Button>
+              <Button variant="danger" size="sm" onClick={(e) => handleDelete(e, comment._id)}>Delete</Button>
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -135,7 +87,7 @@ function CommentModal({ show, handleClose, elementId }) {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSaveComment}>
+        <Button variant="primary" onClick={handleSave}>
           Save
         </Button>
       </Modal.Footer>
