@@ -88,13 +88,6 @@ export const editComment = createAsyncThunk(
 export const commentsSlice = createSlice({
     name: 'comments',
     initialState,
-    reducers: {
-        resetComments(state) {
-            state.comments = [];
-            state.status = 'idle';
-            state.error = null;
-        },
-    },
     extraReducers(builder) {
         builder
                 .addCase(getComments.pending, (state) => {

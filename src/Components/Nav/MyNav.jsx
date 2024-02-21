@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { filterBooks } from '../../reducers/books/booksSlice';
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
+import SwitchExample from '../SwitchBtn/SwitchBtn';
 
 function MyNav() {
   const [query, setQuery] = useState('')
@@ -30,19 +31,18 @@ function MyNav() {
         <Navbar.Brand href="#home" className='text-white'>EpiBooks</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mx-auto">
-            
+          <Nav className="mx-auto">            
             <FormTextExample onChange={handleChange}/>
             <Button type='submit' 
                     variant="secondary" 
                     className='mx-2'
                     size='sm'
-                    onClick={handleFilter}>Search</Button>
-                    
+                    onClick={handleFilter}>Search</Button>                    
             <Link href='#' text='Home' className='text-white m-2'/>
             <Link href='#' text='About' className='text-white m-2'/>
             <Link href='#' text='Browse' className='text-white m-2'/>
           </Nav>
+          <SwitchExample/>
         </Navbar.Collapse>
       </Container>
     </Navbar>

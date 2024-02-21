@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { allComments, getComments, resetComments, deleteComment, editComment, addComment } from '../../reducers/comments/commentsSlice';
+import { allComments, getComments, deleteComment, editComment, addComment } from '../../reducers/comments/commentsSlice';
 import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
 import Rating from 'react-rating-stars-component';
 
@@ -16,9 +16,6 @@ function CommentModal({ show, handleClose, elementId }) {
       if (show && elementId) {
         dispatch(getComments(elementId));
       }
-      return () => {
-        dispatch(resetComments());
-      };
     }, [show, elementId, dispatch]);
 
     const handleSave = async () => {
@@ -30,12 +27,12 @@ function CommentModal({ show, handleClose, elementId }) {
       setCommentText('');
       setRating(0);
       setEditingCommentId(null);
+      alert("Operation performed successfully!");
     };
 
     const startEdit = (event, comment) => {
       event.stopPropagation();
       setCommentText(comment.comment);
-      setRating(comment.rate);
       setEditingCommentId(comment._id);
     };
 

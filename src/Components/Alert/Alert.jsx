@@ -24,7 +24,7 @@ function AlertDismissible() {
 
   return (
     <>
-      <Alert show={show} variant="success">
+      <Alert show={show} variant="success" className='text-center'>
         <Alert.Heading>Welcome to EpiBooks</Alert.Heading>
         <p>
           This Alert is just a test to see if I'm actually capable of using React with Bootstrap. <br />
