@@ -42,8 +42,8 @@ function MyNav() {
             <Link href='#' text='About' className='text-white m-2'/>
             <Link href='#' text='Browse' className='text-white m-2'/>
           </Nav>
-          <SwitchExample/>
         </Navbar.Collapse>
+        <SwitchExample/>
       </Container>
     </Navbar>
   );
