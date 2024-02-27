@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, ListGroup, Col, Button } from 'react-bootstrap';
 import classes from './BookCard.module.css'
 import CommentModal from '../Modal/PopUpModal';
-
+import { useNavigate } from 'react-router-dom';
 
 function BookCard({title, price, imgSrc, category, asin, onClick}) {
 
@@ -12,6 +12,12 @@ function BookCard({title, price, imgSrc, category, asin, onClick}) {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+
+  const navigate = useNavigate();
+
+  const handleDetails = () => {
+    navigate(`/book/${asin}`);
+  };
   
   const handleClick = () => {
     setIsSelected(!isSelected);
@@ -34,6 +40,7 @@ function BookCard({title, price, imgSrc, category, asin, onClick}) {
       </ListGroup>
       {isSelected && (
           <Card.Body>
+            <Button variant='secondary' className='w-100 mb-2' onClick={handleDetails}>Details</Button>
             <Button variant="secondary" className='w-100' onClick={handleShowModal}>Add Comment and Rate</Button>
           </Card.Body>
         )}

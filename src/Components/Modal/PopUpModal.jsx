@@ -11,7 +11,7 @@ function CommentModal({ show, handleClose, elementId }) {
     const [commentText, setCommentText] = useState('');
     const [rating, setRating] = useState(0);
     const [editingCommentId, setEditingCommentId] = useState(null);
-
+    
     useEffect(() => {
       if (show && elementId) {
         dispatch(getComments(elementId));

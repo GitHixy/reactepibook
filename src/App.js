@@ -1,20 +1,24 @@
 import './App.css';
-import AlertDismissible from './Components/Alert/Alert';
-import Footer from './Components/Footer/Footer';
 import Main from './Components/Main/Main';
-import MyNav from './Components/Nav/MyNav';
+import Error from './Components/ErrorPage/Error';
+import Details from './Components/Details/Details';
 import { useSelector } from 'react-redux';
 import './Components/SwitchBtn/SwitchBtn.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 function App() {
   const theme = useSelector((state) => state.theme.value)
   return (
     <>
+    <BrowserRouter>
     <div className={theme === 'light' ? 'light-theme' : 'dark-theme'}>
-    <MyNav/>
-    <AlertDismissible/>
-    <Main/>
-    <Footer/>
+    <Routes>
+    <Route exact path= '/' element = {<Main />} />
+    <Route path = '/book/:asin' element={<Details />} />
+    <Route path='*' element = {<Error />} />
+    </Routes>
     </div>
+    </BrowserRouter>
     </>
   );
 }
