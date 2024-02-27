@@ -94,7 +94,7 @@ export const commentsSlice = createSlice({
                 })
                 .addCase(getComments.fulfilled, (state, action) =>{
                     state.status = 'succeeded';
-                    state.comments = action.payload.reverse().slice(0, 5);
+                    state.comments = action.payload.reverse().slice(0, 4);
                 })
                 .addCase(getComments.rejected, (state, action) => {
                     state.status = 'failed';

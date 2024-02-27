@@ -29,51 +29,57 @@ const Details = () => {
         const res = await axios.get(url + asin, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        await setBookDetails(res.data);
-        await setElementId(asin);
-        console.log(res);
+        setBookDetails(res.data);
+        setElementId(asin);
+        if (elementId) {
+          dispatch(getComments(elementId));
+        }
       } catch (e) {
         console.log(e);
         throw e;
       }
     };
     getByAsin();
-    dispatch(getComments(elementId));
-  }, [asin, dispatch, elementId]);
+    
+  }, [dispatch, elementId, asin]);
 
   if (!bookDetails) return <div>Loading...</div>;
 
   return (
     <>
-      <MyNav />
-      <Row className="m-5">
-        <Col>
-      <Card className=" w-80 mx-auto my-1">
-        <Card.Img variant="top" src={bookDetails.img} />
+      <MyNav isSearchActive={false}/>
+      <Row className="mt-2 ">
+        <Col className="m-2">
+      <Card>
+      <Card.Img variant="bottom" src={bookDetails.img} />
         <Card.Body>
+        
           <ListGroup className="list-group-flush text-center">
             <ListGroup.Item>
-              <strong>{bookDetails.title}</strong>
+              <strong>Title: <br></br>{bookDetails.title}</strong>
             </ListGroup.Item>
             <ListGroup.Item>
-              <strong>Category:</strong> {bookDetails.category}
+              <strong>Category:<br></br></strong> {bookDetails.category}
             </ListGroup.Item>
             <ListGroup.Item>
-              <strong>Price:</strong> {bookDetails.price}$
+              <strong>Price:<br></br></strong> {bookDetails.price}$
             </ListGroup.Item>
           </ListGroup>
+          <hr />
         </Card.Body>
+
+        <Card.Header as='h6' className="text-muted text-center">The ID Code of the book that you've selected is: {bookDetails.asin}</Card.Header>
       </Card>
       </Col>
-      <Col>
+      <Col className="d-flex flex-column align-items-center justify-content-center">
 
       <h2>Reviews:</h2>
         {comments.map((comment) => (
           
-            <Card key={comment._id} style={{ width: "25rem" }} className="mt-2">
+            <Card key={comment._id} style={{ width: "25rem" }} className="m-1">
               <Card.Body>
                 <Card.Title>User Email: <br></br> {comment.author}</Card.Title>
-                
+                <hr />
                 <Rating
               value={comment.rate}
               count={5}
@@ -84,6 +90,7 @@ const Details = () => {
             />
                 <Card.Text><strong>Comment:</strong> <br></br> {comment.comment}</Card.Text>
                 <Card.Subtitle className="mb-2 text-muted">
+                <hr />
                 <strong>Published On:</strong>{" "}
                   {new Date(comment.createdAt).toLocaleDateString("en-US", {
                     year: "numeric",

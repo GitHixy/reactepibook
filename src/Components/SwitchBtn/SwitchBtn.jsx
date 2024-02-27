@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../../reducers/theme/themeSlice';
 
+
 function SwitchExample() {
     const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.value);
@@ -21,7 +22,7 @@ function SwitchExample() {
         onChange={handleToggle}
         checked={theme === 'dark'}
       />
-    
+
   );
 }
 

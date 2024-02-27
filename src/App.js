@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
     <div className={theme === 'light' ? 'light-theme' : 'dark-theme'}>
     <Routes>
-    <Route exact path= '/' element = {<Main />} />
+    <Route exact path= '/reactepibook' element = {<Main />} />
     <Route path = '/book/:asin' element={<Details />} />
     <Route path='*' element = {<Error />} />
     </Routes>

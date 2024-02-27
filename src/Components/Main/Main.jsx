@@ -38,7 +38,7 @@ const displayCol = () => (
 )
     return(
         <>
-            <MyNav />
+            <MyNav isSearchActive={true}/>
             <AlertDismissible />
         <Container>
           { error &&
